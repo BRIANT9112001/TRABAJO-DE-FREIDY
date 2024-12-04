@@ -29,11 +29,13 @@ public class ExploradorDeProductos extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 500, 400);
         contentPane = new JPanel();
+        contentPane.setBackground(new Color(255, 0, 0));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
         
         JPanel panel = new JPanel();
+        panel.setBackground(new Color(255, 255, 255));
         panel.setBorder(new TitledBorder(null, "Productos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel.setBounds(10, 10, 465, 300);
         contentPane.add(panel);
@@ -45,21 +47,10 @@ public class ExploradorDeProductos extends JFrame {
         JScrollPane scrollPane = new JScrollPane(listaProductos);
         panel.add(scrollPane, BorderLayout.CENTER);
 
-        JButton btnActualizar = new JButton("Actualizar Lista");
-        btnActualizar.setFont(new Font("Tahoma", Font.PLAIN, 13));
-        btnActualizar.setBounds(262, 320, 150, 30);
-        contentPane.add(btnActualizar);
-
-        btnActualizar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                actualizarListaProductos();
-            }
-        });
-
+        // Botón para volver al inicio
         JButton volverButton = new JButton("Volver al Inicio");
         volverButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
-        volverButton.setBounds(59, 320, 150, 30);
+        volverButton.setBounds(165, 320, 150, 30);
         contentPane.add(volverButton);
 
         volverButton.addActionListener(new ActionListener() {

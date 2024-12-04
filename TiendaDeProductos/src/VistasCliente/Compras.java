@@ -35,6 +35,7 @@ public class Compras extends JFrame {
         contentPane.setLayout(new BorderLayout(0, 0));
 
         JLabel lblTitulo = new JLabel("Catálogo de Productos");
+        lblTitulo.setBackground(new Color(255, 0, 0));
         lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 18));
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
         contentPane.add(lblTitulo, BorderLayout.NORTH);
@@ -304,7 +305,7 @@ ORDER BY MAX(F.fecha) DESC;
 
         // Agregar la tabla a un JScrollPane y configurarlo en la ventana
         JScrollPane scrollPane = new JScrollPane(tableFacturas);
-        frameFacturas.add(scrollPane);
+        frameFacturas.getContentPane().add(scrollPane);
 
         // Hacer visible la ventana
         frameFacturas.setVisible(true);

@@ -13,6 +13,7 @@ import tienda.modelo.Producto;
 import tienda.vistas.VistaAdministrador;
 
 import java.util.ArrayList;
+import java.io.File;
 
 public class PantallaInicio extends JFrame {
 
@@ -21,38 +22,20 @@ public class PantallaInicio extends JFrame {
     
 
     public static void main(String[] args) {
-    	
-    	//importar la libreria
-
-    	try {
-
-    	for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-
-    	if ("Nimbus".equals(info.getName())) {
-
-    	UIManager.setLookAndFeel(info.getClassName());
-
-    	break;
-
-    	}
-
-    	}
-
-    	} catch (Exception e) {
-
-    	// Si Nimbus no está disponible, puedes establecer otro Look and Feel.
-
-    	try {
-
-    	UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-
-    	} catch (Exception ex) {
-
-    	// Manejo de excepción
-
-    	}
-
-    	}
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            try {
+                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     	
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -67,12 +50,13 @@ public class PantallaInicio extends JFrame {
         });
     }
 
-    public PantallaInicio(ArrayList<Producto> productos) {		
+    public PantallaInicio(ArrayList<Producto> productos) {
+        setAlwaysOnTop(true);		
         setTitle("Tienda Bravo");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 800, 600);
 
-        //  la barra de menú
+        // Barra de menú
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
 
@@ -83,7 +67,6 @@ public class PantallaInicio extends JFrame {
         // Menú de Acciones
         JMenu mnAcciones = new JMenu("Tienda");
         menuBar.add(mnAcciones);
-        
         
         // Acción de Compras
         JMenuItem mntmCompras = new JMenuItem("Comprar Productos");
@@ -97,17 +80,41 @@ public class PantallaInicio extends JFrame {
 
         // Contenido principal
         contentPane = new JPanel();
-        contentPane.setBackground(Color.WHITE);
+        contentPane.setBackground(new Color(255, 255, 255));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
         // Panel para la imagen de inicio
-        JLabel imagenLabel = new JLabel("");
-        imagenLabel.setBounds(10, 50, 760, 400);
-        ImageIcon img = new ImageIcon("C:\\Users\\Usuario\\Desktop\\Uni\\Programacion 1\\TiendaDeProductos\\src\\IMG\\bravo.png"); // Ruta a la imagen
-        Image imgEscalada = img.getImage().getScaledInstance(760, 400, Image.SCALE_SMOOTH); // Escala la imagen
-        imagenLabel.setIcon(new ImageIcon(imgEscalada));
+        JLabel imagenLabel = new JLabel();
+        imagenLabel.setBounds(28, 52, 744, 371);
+        
+        // Cargar la imagen usando getResource
+        try {
+            // Intenta cargar la imagen desde el classpath
+            ImageIcon imageIcon = new ImageIcon(getClass().getResource("/IMG/bravo.png"));
+            if (imageIcon.getImageLoadStatus() == MediaTracker.COMPLETE) {
+                Image img = imageIcon.getImage();
+                Image imgEscalada = img.getScaledInstance(760, 400, Image.SCALE_SMOOTH);
+                imagenLabel.setIcon(new ImageIcon(imgEscalada));
+            } else {
+                // Si no se encuentra en el classpath, intenta cargar desde ruta absoluta
+                File file = new File("src/IMG/bravo.png");
+                if (file.exists()) {
+                    ImageIcon imageIconFile = new ImageIcon(file.getAbsolutePath());
+                    Image img = imageIconFile.getImage();
+                    Image imgEscalada = img.getScaledInstance(760, 400, Image.SCALE_SMOOTH);
+                    imagenLabel.setIcon(new ImageIcon(imgEscalada));
+                } else {
+                    imagenLabel.setText("Imagen no encontrada");
+                    System.err.println("No se pudo cargar la imagen. Verifique la ruta: " + file.getAbsolutePath());
+                }
+            }
+        } catch (Exception e) {
+            imagenLabel.setText("Error al cargar la imagen");
+            e.printStackTrace();
+        }
+        
         contentPane.add(imagenLabel);
 
         JButton btnAdmin = new JButton("Administrador");

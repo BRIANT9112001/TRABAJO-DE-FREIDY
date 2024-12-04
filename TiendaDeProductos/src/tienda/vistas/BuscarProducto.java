@@ -20,17 +20,21 @@ public class BuscarProducto extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 450, 400);
         JPanel contentPane = new JPanel();
+        contentPane.setBackground(new Color(255, 0, 0));
+        contentPane.setForeground(new Color(0, 0, 0));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
         JPanel panel = new JPanel();
+        panel.setBackground(new Color(255, 255, 255));
         panel.setBorder(new TitledBorder(null, "Buscar Producto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel.setBounds(25, 25, 380, 100);
         contentPane.add(panel);
         panel.setLayout(null);
 
         JLabel lblBuscar = new JLabel("Ingrese nombre:");
+        lblBuscar.setForeground(new Color(0, 0, 0));
         lblBuscar.setFont(new Font("Tahoma", Font.BOLD, 15));
         lblBuscar.setBounds(10, 20, 140, 30);
         panel.add(lblBuscar);
@@ -42,6 +46,7 @@ public class BuscarProducto extends JFrame {
         txtBuscar.setColumns(10);
 
         JButton btnBuscar = new JButton("Buscar");
+        btnBuscar.setForeground(new Color(0, 0, 0));
         btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 13));
         btnBuscar.setBounds(160, 60, 100, 30);
         panel.add(btnBuscar);
@@ -51,6 +56,7 @@ public class BuscarProducto extends JFrame {
         contentPane.add(scrollPane);
 
         txtResultado = new JTextArea();
+        txtResultado.setForeground(new Color(0, 0, 0));
         txtResultado.setFont(new Font("Monospaced", Font.PLAIN, 13));
         txtResultado.setEditable(false);
         scrollPane.setViewportView(txtResultado);

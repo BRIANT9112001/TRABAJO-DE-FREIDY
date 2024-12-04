@@ -37,13 +37,14 @@ public class VistaAdministrador extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 441, 533);
         JPanel contentPane = new JPanel();
+        contentPane.setBackground(new Color(255, 0, 0));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
         JPanel panel = new JPanel();
         panel.setBorder(new TitledBorder(null, "Agregar Producto", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panel.setBounds(25, 46, 365, 300);
+        panel.setBounds(25, 47, 365, 300);
         contentPane.add(panel);
         panel.setLayout(null);
 
@@ -122,6 +123,7 @@ public class VistaAdministrador extends JFrame {
         });
 
         JPanel panelNavegacion = new JPanel();
+        panelNavegacion.setBackground(new Color(255, 0, 0));
         panelNavegacion.setLayout(new FlowLayout());
         panelNavegacion.setBounds(25, 405, 365, 40);
         contentPane.add(panelNavegacion);
@@ -129,18 +131,14 @@ public class VistaAdministrador extends JFrame {
         JButton volverButton = new JButton("Volver al Inicio");
         panelNavegacion.add(volverButton);
 
-        JLabel ImagenLabel = new JLabel("");
-        ImagenLabel.setIcon(new ImageIcon(VistaAdministrador.class.getResource("/IMG/nubes banner.png")));
-        ImagenLabel.setBounds(0, 0, 725, 36);
-        contentPane.add(ImagenLabel);
-
         JMenuBar menuBar = new JMenuBar();
+        menuBar.setBackground(new Color(255, 0, 0));
         setJMenuBar(menuBar);
 
         JMenu mnFiltro = new JMenu("Buscador");
         menuBar.add(mnFiltro);
 
-        JMenuItem mntmBuscador = new JMenuItem("Buscar ID");
+        JMenuItem mntmBuscador = new JMenuItem("Buscar Producto");
         mntmBuscador.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -153,7 +151,7 @@ public class VistaAdministrador extends JFrame {
         JMenu mnEliminar = new JMenu("Eliminar");
         menuBar.add(mnEliminar);
 
-        JMenuItem mntmEliminar = new JMenuItem("Eliminar ID");
+        JMenuItem mntmEliminar = new JMenuItem("Eliminar Producto");
         mntmEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -166,7 +164,7 @@ public class VistaAdministrador extends JFrame {
         JMenu mnEditar = new JMenu("Editar");
         menuBar.add(mnEditar);
 
-        JMenuItem mntmEditar = new JMenuItem("Editar ID");
+        JMenuItem mntmEditar = new JMenuItem("Editar Producto");
         mntmEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

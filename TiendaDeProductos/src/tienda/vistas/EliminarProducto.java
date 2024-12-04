@@ -18,6 +18,7 @@ public class EliminarProducto extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 450, 200);
         JPanel contentPane = new JPanel();
+        contentPane.setBackground(new Color(255, 0, 0));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
@@ -53,25 +54,64 @@ public class EliminarProducto extends JFrame {
     }
 
     private void eliminarProducto() {
-        int idProducto = Integer.parseInt(txtIdProducto.getText());
+        String idProductoTexto = txtIdProducto.getText();
 
+        if (idProductoTexto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID de producto.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int idProducto;
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tienda_productos?serverTimezone=America/Santo_Domingo", "root", "12345");
-            String query = "DELETE FROM productos WHERE id = ?";
-            PreparedStatement pst = con.prepareStatement(query);
-            pst.setInt(1, idProducto);
-            int affectedRows = pst.executeUpdate();
+            idProducto = Integer.parseInt(idProductoTexto);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID debe ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-            if (affectedRows > 0) {
-                JOptionPane.showMessageDialog(this, "Producto eliminado correctamente.");
-            } else {
-                JOptionPane.showMessageDialog(this, "No se encontró el producto con el ID especificado.");
+        int confirmacion = JOptionPane.showConfirmDialog(
+            this,
+            "¿Estás seguro de que deseas eliminar el producto con ID " + idProducto + "?",
+            "Confirmar eliminación",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+        );
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try {
+                Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/tienda_productos?serverTimezone=America/Santo_Domingo",
+                    "root",
+                    "12345"
+                );
+
+                // Primero elimina las referencias en la tabla dependiente
+                String queryEliminarDependencias = "DELETE FROM factura_productos WHERE productos_nombre = (SELECT nombre FROM productos WHERE id = ?)";
+                PreparedStatement pstDependencias = con.prepareStatement(queryEliminarDependencias);
+                pstDependencias.setInt(1, idProducto);
+                pstDependencias.executeUpdate();
+                pstDependencias.close();
+
+                // Luego elimina el producto
+                String queryEliminarProducto = "DELETE FROM productos WHERE id = ?";
+                PreparedStatement pstProducto = con.prepareStatement(queryEliminarProducto);
+                pstProducto.setInt(1, idProducto);
+                int affectedRows = pstProducto.executeUpdate();
+                pstProducto.close();
+
+                if (affectedRows > 0) {
+                    JOptionPane.showMessageDialog(this, "Producto eliminado correctamente.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontró el producto con el ID especificado.");
+                }
+
+                con.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error al eliminar el producto: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-
-            pst.close();
-            con.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } else {
+            JOptionPane.showMessageDialog(this, "Eliminación cancelada.");
         }
     }
 }
